@@ -1,0 +1,28 @@
+﻿@{
+    ViewData["Title"] = "Scan Badge";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewData["Title"]</title>
+</head>
+<body>
+    <h1>Scan Your Badge</h1>
+
+    <form asp-action="ProcessScan" method="post">
+        <label for="badgeId">Badge ID:</label>
+        <input type="text" id="badgeId" name="badgeId" required />
+
+        <label for="action">Action:</label>
+        <select id="action" name="action" required>
+            <option value="">Select...</option>
+            <option value="leave">Leave</option>
+            <option value="return">Return</option>
+        </select>
+
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
