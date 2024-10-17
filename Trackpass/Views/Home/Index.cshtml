@@ -1,13 +1,10 @@
-﻿<!-- Views/Home/Index.cshtml -->
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>Home</title>
-</head>
-<body>
-    <h1>Welcome to the Home Page!</h1>
-    <p>Please scan your ID badge:</p>
-    <!-- You can add your form for ID badge scanning here -->
-</body>
-</html>
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1>Welcome to the Application</h1>
+
+<div>
+    <a href="@Url.Action("ObjectRecognition", "ObjectRecognition")" class="btn btn-primary">Start Object Recognition</a>
+    <a href="@Url.Action("Scan", "Attendance")" class="btn btn-primary">Scan Attendance</a>
+</div>

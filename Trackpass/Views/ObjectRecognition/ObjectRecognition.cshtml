@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "Object Recognition";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<button id="startCameraButton">Start Camera</button> <!-- Button to start the camera -->
+
+<div>
+    <img id="cameraFeed" src="@Url.Action("GetFrame", "ObjectRecognition")" alt="Camera Feed" style="display:none;" /> <!-- Initially hidden -->
+</div>
+
+<div id="error" style="color: red;"></div> <!-- For displaying error messages -->
+
+<script>
+    let cameraActive = false; // Flag to track camera state
+
+    // Function to start the camera
+    document.getElementById('startCameraButton').addEventListener('click', startCamera);
+
+    function startCamera() {
+        if (!cameraActive) {
+            cameraActive = true; // Set the flag to true
+            document.getElementById('cameraFeed').style.display = 'block'; // Show the camera feed
+            console.log('Camera feed starting...');
+            updateCameraFeed(); // Start updating the camera feed immediately
+            setInterval(updateCameraFeed, 1000); // Update the feed every second
+        }
+    }
+
+    // Function to update the image source every second
+    function updateCameraFeed() {
+        const cameraFeed = document.getElementById('cameraFeed');
+        cameraFeed.src = '@Url.Action("GetFrame", "ObjectRecognition")' + '?rand=' + Math.random(); // Prevent caching
+
+        // Error handling for when the image fails to load
+        cameraFeed.onerror = function () {
+            document.getElementById('error').innerText = "Error loading camera feed. Please check your camera connection.";
+        };
+    }
+</script>

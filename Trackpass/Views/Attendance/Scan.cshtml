@@ -1,25 +1,43 @@
-﻿<form asp-action="ProcessScan" method="post">
-    <div>
-        <label for="badgeId">Badge ID:</label>
-        <input type="text" id="badgeId" name="badgeId" required />
-    </div>
-    <div>
-        <label for="action">Action:</label>
-        <select id="action" name="action" required>
-            <option value="leave">Leave</option>
-            <option value="return">Return</option>
-        </select>
-    </div>
-    <div>
-        <label for="location">Location:</label>
-        <select id="location" name="locationId" required>
-            <option value="1">Restroom</option>
-            <option value="2">Nurse</option>
-            <option value="3">Leave building</option>
-            <option value="4">Counselor</option>
-            <option value="5">Office</option>
-            <option value="6">Other</option>
-        </select>
-    </div>
-    <button type="submit">Submit</button>
-</form>
+﻿@{
+    ViewData["Title"] = "Attendance Scan";
+}
+
+<div class="container">
+    <h2>Attendance Scan</h2>
+
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-info">
+            @ViewBag.Message
+        </div>
+    }
+
+    <form method="post" asp-action="ProcessScan">
+        <div class="form-group">
+            <label for="badgeId">Badge ID</label>
+            <input type="text" class="form-control" id="badgeId" name="badgeId" required />
+        </div>
+
+        <div class="form-group">
+            <label for="action">Action</label>
+            <select class="form-control" id="action" name="action" required>
+                <option value="clockin">Clock In</option>
+                <option value="clockout">Clock Out</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="locationId">Location</label>
+            <select class="form-control" id="locationId" name="locationId" required>
+                <option value="1">Restroom</option>
+                <option value="2">Nurse</option>
+                <option value="3">Leave building</option>
+                <option value="4">Counselor</option>
+                <option value="5">Office</option>
+                <option value="6">Other</option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
