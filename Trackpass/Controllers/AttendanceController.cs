@@ -58,28 +58,53 @@ namespace AttendanceController.Controllers
         private void ClockOut(string badgeId, string locationName)
         {
             using var connection = new MySqlConnection(connectionString);
-            connection.Open();
-            var command = new MySqlCommand("INSERT INTO clock_times (ID, CheckOutTime, Location) VALUES (@ID, @CheckOutTime, @Location)", connection);
-            command.Parameters.AddWithValue("@ID", badgeId);
-            command.Parameters.AddWithValue("@CheckOutTime", DateTime.Now);
-            command.Parameters.AddWithValue("@Location", locationName);
-            command.ExecuteNonQuery();
+            try
+            {
+                connection.Open();
+                var command = new MySqlCommand("INSERT INTO clock_times (ID, CheckOutTime, Location) VALUES (@ID, @CheckOutTime, @Location)", connection);
+                command.Parameters.AddWithValue("@ID", badgeId);
+                command.Parameters.AddWithValue("@CheckOutTime", DateTime.Now);
+                command.Parameters.AddWithValue("@Location", locationName);
+
+                int rowsAffected = command.ExecuteNonQuery();
+                if (rowsAffected == 0)
+                {
+                    ViewBag.Message = "No rows were affected by the clock-out operation.";
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = "Error during clock-out: " + ex.Message;
+            }
         }
 
         private void ClockIn(string badgeId, string locationName)
         {
             using var connection = new MySqlConnection(connectionString);
-            connection.Open();
-            var command = new MySqlCommand("INSERT INTO clock_times (ID, CheckInTime, Location) VALUES (@ID, @CheckInTime, @Location)", connection);
-            command.Parameters.AddWithValue("@ID", badgeId);
-            command.Parameters.AddWithValue("@CheckInTime", DateTime.Now);
-            command.Parameters.AddWithValue("@Location", locationName);
-            command.ExecuteNonQuery();
+            try
+            {
+                connection.Open();
+                var command = new MySqlCommand("INSERT INTO clock_times (ID, CheckInTime, Location) VALUES (@ID, @CheckInTime, @Location)", connection);
+                command.Parameters.AddWithValue("@ID", badgeId);
+                command.Parameters.AddWithValue("@CheckInTime", DateTime.Now);
+                command.Parameters.AddWithValue("@Location", locationName);
+
+                int rowsAffected = command.ExecuteNonQuery();
+                if (rowsAffected == 0)
+                {
+                    ViewBag.Message = "No rows were affected by the clock-in operation.";
+                }
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Message = "Error during clock-in: " + ex.Message;
+            }
         }
 
         private bool IsValidBadgeId(string badgeId)
         {
-            using (var connection = new MySqlConnection(connectionString))
+            using var connection = new MySqlConnection(connectionString);
+            try
             {
                 connection.Open();
                 var command = new MySqlCommand("SELECT COUNT(*) FROM students WHERE ID = @ID", connection);
@@ -88,9 +113,11 @@ namespace AttendanceController.Controllers
                 int count = Convert.ToInt32(command.ExecuteScalar());
                 return count > 0; // Return true if exists
             }
+            catch (Exception ex)
+            {
+                ViewBag.Message = "Error validating badge ID: " + ex.Message;
+                return false;
+            }
         }
-
-        // GET: /Attendance/ObjectRecognition
-        public IActionResult ObjectRecognition() => View(); // Returns the ObjectRecognition.cshtml view
     }
 }
