@@ -28,7 +28,7 @@
 
         <div class="form-group">
             <label for="locationId">Location</label>
-            <select class="form-control" id="locationId" name="locationId" required>
+            <select class="form-control" id="locationId" name="locationId" required onchange="toggleOtherInput()">
                 <option value="1">Restroom</option>
                 <option value="2">Nurse</option>
                 <option value="3">Leave building</option>
@@ -38,6 +38,26 @@
             </select>
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        
+
+        <div class="form-group" id="otherLocationInput" style="display:none;">
+            <label for="otherLocation">Please specify your location:</label>
+            <input type="text" class="form-control" id="otherLocation" name="otherLocation" />
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Submit</button>
     </form>
 </div>
+
+<script>
+    function toggleOtherInput() {
+        var locationSelect = document.getElementById("locationId");
+        var otherLocationInput = document.getElementById("otherLocationInput");
+
+        if (locationSelect.value === "6") { 
+            otherLocationInput.style.display = "block"; 
+        } else {
+            otherLocationInput.style.display = "none"; 
+        }
+    }
+</script>
